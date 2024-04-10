@@ -1,7 +1,9 @@
--- database: c:\Users\dhall\Dropbox (University of Michigan)\Winter 2024\CIS 421\Projects\CIS-421-Project\GameMarketplace.db
-
+-- database: c:\Users\Alex\Dropbox (University of Michigan)\Winter Semester 2024\CIS 421 - Database Management\CIS-421-Project\GameMarketplace.db
 -- Use the ▷ button in the top right corner to run the entire file.
-
+/*  For running on Alex's desktop
+-- database: c:\Users\Alex\Dropbox (University of Michigan)\Winter Semester 2024\CIS 421 - Database Management\CIS-421-Project\GameMarketplace.db
+-- database: c:\Users\dhall\Dropbox (University of Michigan)\Winter 2024\CIS 421\Projects\CIS-421-Project\GameMarketplace.db
+*/
 -- Retrieve the names of games along with their minimum and recommended requirements:
 SELECT Game.Name, Minimum_Requirements.MinStorage, Minimum_Requirements.MinCPU, Minimum_Requirements.MinRam, Recommended_Requirements.RecStorage, Recommended_Requirements.RecCPU, Recommended_Requirements.RecRam
 FROM Game
@@ -39,11 +41,11 @@ WHERE Reviews.UserID IS NULL;
 
 -- Retrieve the names of games along with their associated developers and release dates, 
 -- sorted by release date in descending order:
-/*
+-- Got this  working @Dan
 SELECT Game.Name, Developer.Name AS DeveloperName, Game.ReleaseDate
 FROM Game
 INNER JOIN Developer ON Game.DevID = Developer.DevID
-ORDER BY ReleaseDate DESC;*/
+ORDER BY ReleaseDate DESC;
 
 -- List all games that nobody has in their library
 SELECT Game.Name
@@ -77,3 +79,14 @@ FROM Game
 LEFT JOIN Library ON Game.GameID = Library.GameID
 GROUP BY Game.Name
 ORDER BY NumUsers DESC;
+
+-- Section for update queries
+SELECT Review
+FROM Reviews
+WHERE Reviews.UserID = 1 AND Reviews.GameID = 13;
+
+-- User 1 updates their review of oldschool runescape
+
+UPDATE Reviews
+SET Review = 'Oldschool runescape is the best game ever!'
+WHERE Reviews.UserID = 1 AND Reviews.GameID = 13;
