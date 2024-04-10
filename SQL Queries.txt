@@ -1,4 +1,4 @@
--- database: c:\Users\Alex\Dropbox (University of Michigan)\Winter Semester 2024\CIS 421 - Database Management\CIS-421-Project\GameMarketplace.db
+-- database: c:\Users\dhall\Dropbox (University of Michigan)\Winter 2024\CIS 421\Projects\CIS-421-Project\GameMarketplace.db
 -- Use the ▷ button in the top right corner to run the entire file.
 /*  For running on Alex's desktop
 -- database: c:\Users\Alex\Dropbox (University of Michigan)\Winter Semester 2024\CIS 421 - Database Management\CIS-421-Project\GameMarketplace.db
@@ -86,7 +86,17 @@ FROM Reviews
 WHERE Reviews.UserID = 1 AND Reviews.GameID = 13;
 
 -- User 1 updates their review of oldschool runescape
-
 UPDATE Reviews
 SET Review = 'Oldschool runescape is the best game ever!'
 WHERE Reviews.UserID = 1 AND Reviews.GameID = 13;
+
+-- Select for update query
+SELECT PostBody
+FROM Posts 
+WHERE PostID = 8;
+
+-- update PostBody & PostDate
+UPDATE Posts
+SET PostBody = 'Finally figured out how to make portals guys',
+PostDate = '2024-04-10'
+WHERE PostID = 8;
