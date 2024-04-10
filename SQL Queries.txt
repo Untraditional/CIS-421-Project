@@ -1,0 +1,79 @@
+-- database: c:\Users\dhall\Dropbox (University of Michigan)\Winter 2024\CIS 421\Projects\CIS-421-Project\GameMarketplace.db
+
+-- Use the ▷ button in the top right corner to run the entire file.
+
+-- Retrieve the names of games along with their minimum and recommended requirements:
+SELECT Game.Name, Minimum_Requirements.MinStorage, Minimum_Requirements.MinCPU, Minimum_Requirements.MinRam, Recommended_Requirements.RecStorage, Recommended_Requirements.RecCPU, Recommended_Requirements.RecRam
+FROM Game
+INNER JOIN Minimum_Requirements ON Game.MinimumRequirementID = Minimum_Requirements.MinimumRequirementID
+INNER JOIN Recommended_Requirements ON Game.RecommendedRequirementID = Recommended_Requirements.RecommendedRequirementsID;
+
+-- Get the total number of games sold for each developer:
+SELECT Developer.Name, SUM(Game.NumSold) AS TotalGamesSold
+FROM Developer
+INNER JOIN Game ON Developer.DevID = Game.DevID
+GROUP BY Developer.Name;
+
+-- Find the average tax amount and cart amount for all transactions:
+SELECT AVG(TaxAmt) AS AvgTaxAmt, AVG(CartAmt) AS AvgCartAmt
+FROM Transactions;
+
+-- Retrieve the names of games along with the number of posts in their associated threads:
+SELECT Game.Name, COUNT(Posts.PostID) AS NumPosts
+FROM Game
+LEFT JOIN Threads ON Game.GameID = Threads.GameID
+LEFT JOIN Posts ON Threads.ThreadID = Posts.ThreadID
+GROUP BY Game.Name;
+
+-- List the names of games along with the names of their developers and genres:
+SELECT Game.Name, Developer.Name AS DeveloperName, Genre.GenreName
+FROM Game
+INNER JOIN Developer ON Game.DevID = Developer.DevID
+INNER JOIN Genre ON Game.GenreID = Genre.GenreID;
+
+-- List all users who have not left any reviews:
+SELECT UserName
+FROM UserAcct
+LEFT JOIN Reviews ON UserAcct.UserID = Reviews.UserID
+WHERE Reviews.UserID IS NULL;
+
+-- Retrieve the names of games along with their associated developers and release dates, 
+-- sorted by release date in descending order:
+/*
+SELECT Game.Name, Developer.Name AS DeveloperName, Game.ReleaseDate
+FROM Game
+INNER JOIN Developer ON Game.DevID = Developer.DevID
+ORDER BY ReleaseDate DESC;*/
+
+-- List all games that nobody has in their library
+SELECT Game.Name
+FROM Game
+LEFT JOIN Library ON Game.GameID = Library.GameID
+WHERE Library.GameID IS NULL;
+
+-- List the names of users who have spent more than 5,000 hours playing games:
+SELECT UserName
+FROM UserAcct
+WHERE HoursPlayed > 5000;
+
+-- Find the number of games in each genre:
+SELECT Genre.GenreName, COUNT(Game.GameID) AS NumGames
+FROM Genre
+LEFT JOIN Game ON Genre.GenreID = Game.GenreID
+GROUP BY Genre.GenreName;
+
+-- Retrieve the names of users along with the total 
+-- amount they have spent on games (including tax) in descending order:
+SELECT UserName, SUM(CartAmt + TaxAmt) AS TotalSpent
+FROM Transactions
+JOIN UserAcct ON Transactions.UserID = UserAcct.UserID
+GROUP BY UserName 
+ORDER BY TotalSpent DESC;
+
+-- Retrieve the names of games along with 
+-- the number of users who have them in their library in descending order:
+SELECT Game.Name, COUNT(Library.LibraryID) AS NumUsers
+FROM Game
+LEFT JOIN Library ON Game.GameID = Library.GameID
+GROUP BY Game.Name
+ORDER BY NumUsers DESC;
