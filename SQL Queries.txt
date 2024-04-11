@@ -4,6 +4,8 @@
 -- database: c:\Users\Alex\Dropbox (University of Michigan)\Winter Semester 2024\CIS 421 - Database Management\CIS-421-Project\GameMarketplace.db
 -- database: c:\Users\dhall\Dropbox (University of Michigan)\Winter 2024\CIS 421\Projects\CIS-421-Project\GameMarketplace.db
 */
+
+
 -- Retrieve the names of games along with their minimum and recommended requirements:
 SELECT Game.Name, Minimum_Requirements.MinStorage, Minimum_Requirements.MinCPU, Minimum_Requirements.MinRam, Recommended_Requirements.RecStorage, Recommended_Requirements.RecCPU, Recommended_Requirements.RecRam
 FROM Game
